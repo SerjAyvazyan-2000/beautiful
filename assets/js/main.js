@@ -85,7 +85,9 @@
     let x = 0, y = 0, cx = 0, cy = 0;
     list.addEventListener("mouseover", (e) => {
       const li = e.target.closest(".price");
-      if (li && li.dataset.img) { cimg.style.backgroundImage = `url("${li.dataset.img}")`; cimg.classList.add("is-on"); }
+      if (!li) return;
+      if (li.dataset.img) { cimg.style.backgroundImage = `url("${li.dataset.img}")`; cimg.classList.add("is-on"); }
+      else cimg.classList.remove("is-on");   // у услуги нет своего фото — ничего не показываем
     });
     list.addEventListener("mouseleave", () => cimg.classList.remove("is-on"));
     addEventListener("mousemove", (e) => { x = e.clientX; y = e.clientY; });
@@ -116,6 +118,7 @@
 
   /* ---------- До / После ---------- */
   const ba = S.beforeAfter, frame = $("[data-ba]");
+  if (!ba) { $(".ba").remove(); } else {
   $("[data-ba-title]").textContent = ba.title;
   $("[data-ba-text]").textContent = ba.text;
   if (ba.split) {           // один парный кадр: левая половина — «до», правая — «после»
@@ -126,6 +129,7 @@
     $("[data-ba-after]").src = ba.after;
   }
   $(".ba__range", frame).addEventListener("input", (e) => frame.style.setProperty("--pos", e.target.value + "%"));
+  }
 
   /* ---------- Мастера ---------- */
   const track = $("[data-masters]");
