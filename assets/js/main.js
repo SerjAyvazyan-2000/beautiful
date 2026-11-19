@@ -249,6 +249,19 @@
   /* ---------- Подвал ---------- */
   $("[data-legal]").textContent = S.footer.legal;
   $("[data-year]").textContent = new Date().getFullYear();
+  /* ---------- Название в подвале: подгоняем размер, чтобы влезало целиком ---------- */
+  const fb = $(".footer__brand");
+  const fitBrand = () => {
+    if (!fb) return;
+    fb.style.fontSize = "";
+    const max = parseFloat(getComputedStyle(fb).fontSize);
+    const w = fb.clientWidth, sw = fb.scrollWidth;
+    if (sw > w) fb.style.fontSize = Math.floor(max * w / sw * 0.98) + "px";
+  };
+  fitBrand();
+  if (document.fonts) document.fonts.ready.then(fitBrand);
+  addEventListener("resize", fitBrand);
+
   const cr = S.footer.credit;
   $("[data-credit]").innerHTML = cr && cr.text ? (cr.url ? `<a href="${esc(cr.url)}" target="_blank" rel="noopener" class="link-under">${esc(cr.text)}</a>` : esc(cr.text)) : "";
 
