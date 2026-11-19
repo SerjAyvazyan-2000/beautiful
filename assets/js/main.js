@@ -259,7 +259,12 @@
     if (sw > w) fb.style.fontSize = Math.floor(max * w / sw * 0.98) + "px";
   };
   fitBrand();
-  if (document.fonts) document.fonts.ready.then(fitBrand);
+  if (document.fonts) {
+    document.fonts.load('900 100px "Unbounded"').then(fitBrand).catch(() => {});
+    document.fonts.ready.then(fitBrand);
+    document.fonts.addEventListener && document.fonts.addEventListener("loadingdone", fitBrand);
+  }
+  addEventListener("load", fitBrand);
   addEventListener("resize", fitBrand);
 
   const cr = S.footer.credit;
